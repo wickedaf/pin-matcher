@@ -32,6 +32,11 @@ body {
     box-shadow: none;
 }
 
+#pin-value{
+    height: 100px;
+    font-size: 4em;
+}
+
 input[type='text']{
     background-color: #3D4153;
     text-align: center;
