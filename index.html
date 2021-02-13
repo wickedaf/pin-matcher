@@ -12,7 +12,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="pin-generator half-width">
-                    <input id="pin-value" class="form-control" type="text" value="???">
+                    <input id="pin-value" class="form-control" type="text" value="????">
                     <button id="generate-btn" class="generate-btn">Generate Pin</button>
                 </div>
             </div>
@@ -43,7 +43,7 @@
                             </div>
                             <div>
                                 <button type="submit" id="submit-btn" class="submit-btn">Submit</button>
-                                <p class="action-left">3 try left</p>
+                                <p class="action-left"><span id="try-left">3</span> try left</p>
                             </div>
                     </div>
                 </div>
@@ -54,6 +54,13 @@
             <p class="notify">✅ Pin Matched... Secret door is opening for you</p>
         </div>
     </div>
+
+    <footer class="d-flex justify-content-center mt-5">
+        <p>
+          Copyright &copy; 2021 All rights reserved | Made with ❤ by
+          <a href="http://linkedin.com/in/ishahriaremon">Shahriar Emon</a>
+        </p>
+      </footer>
     <script>
         // GenerateBtn Handle
         const generateBtn = document.getElementById("generate-btn");
@@ -69,18 +76,39 @@
 
         //Submit Button Handle
         const submitBtn = document.getElementById("submit-btn");
-        submitBtn.addEventListener("click", function(){
+        submitBtn.addEventListener("click", function(e){
             let pinValue = document.getElementById("pin-value").value;
             let inputPin = document.getElementById("input-pin").value;
-            if(inputPin == 0){
+            let tryLeft = parseFloat(document.getElementById("try-left").innerText);
+            const pinCheck = generatedPin => {
+                if(inputPin == 0 || pinValue == "????"){
                 alert("First generate a pin then Input the same pin Here");
-            }else if(pinValue != inputPin){
-            document.getElementsByClassName("notify")[0].style.display = "block";
-            document.getElementById("input-pin").value = "";
-        }else{
-            document.getElementsByClassName("notify")[1].style.display = "block";
-            document.getElementById("input-pin").value = "";
-        }
+                tryLeft--;
+                document.getElementById("try-left").innerText = tryLeft;
+                }else if(pinValue != generatedPin){
+
+                document.getElementsByClassName("notify")[0].style.display = "block";
+                document.getElementById("input-pin").value = "";
+                tryLeft--;
+                document.getElementById("try-left").innerText = tryLeft;
+
+                }else{
+
+                    document.getElementsByClassName("notify")[1].style.display = "block";
+                    document.getElementById("input-pin").value = "";
+                }
+
+            };
+
+            if (e.detail == tryLeft ){
+                location.reload();
+            }else{
+                pinCheck(inputPin);
+            }
+
+
+            
+            
         });
         document.getElementById("C").addEventListener("click",function(){
             document.getElementById("input-pin").value = "";
